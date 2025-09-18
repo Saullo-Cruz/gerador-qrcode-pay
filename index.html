@@ -241,10 +241,17 @@
                     return;
                 }
             }
+            
+            // ===== CÓDIGO CORRIGIDO ABAIXO =====
 
-            const ipCompleto = `http://${values.ip1}.${values.ip2}.${values.ip3}.${values.ip4}:${values.port}`;
-            const dadosConfig = { ip: ipCompleto, pdv: values.pdv };
-            const textoParaQRCode = JSON.stringify(dadosConfig);
+            // 1. Constrói o endereço IP
+            const ipAddress = `${values.ip1}.${values.ip2}.${values.ip3}.${values.ip4}`;
+            
+            // 2. Cria a string de texto final no formato correto
+            const textoParaQRCode = `ip:${ipAddress}:${values.port} pdv:${values.pdv}`;
+
+            // ===================================
+
             const resultContainer = document.getElementById('qrcode-result');
             const qrcodeContainer = document.getElementById('qrcode-canvas');
             const downloadLink = document.getElementById('download-link');
