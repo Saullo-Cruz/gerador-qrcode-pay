@@ -20,7 +20,6 @@
             background-color: var(--light-gray);
             color: var(--dark-gray);
             margin: 0;
-            /* Adiciona um padding na parte de baixo para o rodapé não cobrir o conteúdo */
             padding: 20px 20px 60px 20px; 
             display: flex;
             justify-content: center;
@@ -38,118 +37,49 @@
             text-align: center;
         }
 
-        h1 {
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
+        h1 { font-weight: 700; margin-bottom: 10px; }
+        p { color: #6c757d; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        label { display: block; margin-bottom: 8px; font-weight: 500; }
+        .ip-inputs { display: flex; gap: 10px; align-items: center; }
+        .ip-inputs input, #pdv { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 16px; text-align: center; transition: border-color 0.2s, box-shadow 0.2s; }
+        .ip-inputs input:focus, #pdv:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); }
+        .ip-separator { font-weight: bold; }
+        .main-button { background-color: var(--primary-color); color: white; padding: 15px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: 500; width: 100%; transition: background-color 0.2s; }
+        .main-button:hover { background-color: #0056b3; }
+        #qrcode-result { margin-top: 30px; padding: 20px; border: 1px dashed var(--border-color); border-radius: 8px; display: none; }
+        #qrcode-canvas { display: flex; justify-content: center; }
+        .download-button { background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; margin-top: 20px; text-decoration: none; display: inline-block; }
+        .download-button:hover { background-color: #218838; }
 
-        p {
-            color: #6c757d;
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .ip-inputs {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .ip-inputs input, #pdv {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 16px;
-            text-align: center;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .ip-inputs input:focus, #pdv:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-        }
-
-        .ip-separator {
-            font-weight: bold;
-        }
-
-        .main-button {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: 500;
-            width: 100%;
-            transition: background-color 0.2s;
-        }
-
-        .main-button:hover {
-            background-color: #0056b3;
-        }
-
-        #qrcode-result {
-            margin-top: 30px;
-            padding: 20px;
-            border: 1px dashed var(--border-color);
-            border-radius: 8px;
-            display: none; /* Começa escondido */
-        }
-
-        #qrcode-canvas {
-            display: flex;
-            justify-content: center;
-        }
+        footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: #e9ecef; color: #6c757d; text-align: center; padding: 10px 0; font-size: 14px; border-top: 1px solid var(--border-color); }
         
-        .download-button {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 20px;
+        /* --- BOTÃO VOLTAR --- */
+        .back-link-container {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            z-index: 10;
+        }
+        .back-link-container a {
+            color: #343a40; /* Cor escura para contrastar com o fundo claro */
             text-decoration: none;
-            display: inline-block;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s ease;
         }
-        
-        .download-button:hover {
-            background-color: #218838;
+        .back-link-container a:hover {
+            color: #0056b3; /* Cor azul escura no hover */
+            text-decoration: underline;
         }
-
-        /* ===== NOVO CÓDIGO DO RODAPÉ ===== */
-        footer {
-            position: fixed; /* Fixa o elemento na janela do navegador */
-            bottom: 0;       /* Cola na parte inferior */
-            left: 0;         /* Garante que comece na borda esquerda */
-            width: 100%;     /* Faz ocupar a largura inteira da tela */
-            background-color: #e9ecef; /* Um fundo suave para se destacar um pouco */
-            color: #6c757d;  /* Cor do texto */
-            text-align: center; /* Centraliza o texto horizontalmente */
-            padding: 10px 0; /* Espaçamento interno (10px em cima e embaixo) */
-            font-size: 14px; /* Tamanho da fonte */
-            border-top: 1px solid var(--border-color); /* Linha sutil no topo */
-        }
-        /* ================================== */
+        /* ==================== */
     </style>
 </head>
 <body>
 
+    <div class="back-link-container">
+        <a href="https://saullo-cruz.github.io/">← Voltar ao Portfólio</a>
+    </div>
     <div class="container">
         <h1>Gerador de QR Code</h1>
         <p>Preencha os dados do sistema para gerar o código de configuração.</p>
@@ -157,7 +87,7 @@
         <div class="form-group">
             <label for="ip1">Endereço IP e Porta</label>
             <div class="ip-inputs">
-                <input type="text" id="ip1" placeholder="192" maxlength="3" oninput="this.value=this.value.replace(/[^0--9]/g,''); if(parseInt(this.value)>255)this.value='255';">
+                <input type="text" id="ip1" placeholder="192" maxlength="3" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(parseInt(this.value)>255)this.value='255';">
                 <span class="ip-separator">.</span>
                 <input type="text" id="ip2" placeholder="168" maxlength="3" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(parseInt(this.value)>255)this.value='255';">
                 <span class="ip-separator">.</span>
@@ -195,12 +125,7 @@
             }
 
             const ipCompleto = `http://${values.ip1}.${values.ip2}.${values.ip3}.${values.ip4}:${values.port}`;
-            
-            const dadosConfig = {
-                ip: ipCompleto,
-                pdv: values.pdv
-            };
-
+            const dadosConfig = { ip: ipCompleto, pdv: values.pdv };
             const textoParaQRCode = JSON.stringify(dadosConfig);
             const resultContainer = document.getElementById('qrcode-result');
             const qrcodeContainer = document.getElementById('qrcode-canvas');
@@ -219,9 +144,6 @@
                 correctLevel: QRCode.CorrectLevel.H
             });
             
-            console.log("QR Code gerado com o texto:", textoParaQRCode);
-
-            // Adiciona um pequeno delay para garantir que o canvas foi renderizado
             setTimeout(() => {
                 const canvas = qrcodeContainer.querySelector('canvas');
                 if (canvas) {
@@ -236,5 +158,6 @@
     <footer>
         Desenvolvido por Saullo Cruz
     </footer>
-    </body>
+
+</body>
 </html>
