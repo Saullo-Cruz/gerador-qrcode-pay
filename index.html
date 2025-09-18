@@ -3,104 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de QR Code para Configuração</title>
+    <title>Gerador de QR Code - Tema Escuro</title>
     <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
     <style>
+        /* Importa a fonte Orbitron para combinar com o portfólio */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
-        :root {
-            --primary-color: #007bff;
-            --light-gray: #f8f9fa;
-            --dark-gray: #343a40;
-            --border-color: #dee2e6;
-        }
 
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: var(--light-gray);
-            color: var(--dark-gray);
-            margin: 0;
-            padding: 20px 20px 60px 20px; 
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            margin: 0;
+            background-color: #1a1a1a; /* Fundo escuro */
+            color: #ffffff;
+            padding: 20px;
         }
 
         .container {
-            background-color: white;
+            text-align: center;
             padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
             width: 100%;
             max-width: 500px;
-            text-align: center;
+            
+            /* Efeito de vidro fosco */
+            background: rgba(35, 35, 35, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
-        h1 { font-weight: 700; margin-bottom: 10px; }
-        p { color: #6c757d; margin-bottom: 30px; }
-        .form-group { margin-bottom: 20px; text-align: left; }
-        label { display: block; margin-bottom: 8px; font-weight: 500; }
-        .ip-inputs { display: flex; gap: 10px; align-items: center; }
-        .ip-inputs input, #pdv { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 16px; text-align: center; transition: border-color 0.2s, box-shadow 0.2s; }
-        .ip-inputs input:focus, #pdv:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); }
-        .ip-separator { font-weight: bold; }
-        .main-button { background-color: var(--primary-color); color: white; padding: 15px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: 500; width: 100%; transition: background-color 0.2s; }
-        .main-button:hover { background-color: #0056b3; }
-        #qrcode-result { margin-top: 30px; padding: 20px; border: 1px dashed var(--border-color); border-radius: 8px; display: none; }
-        #qrcode-canvas { display: flex; justify-content: center; }
-        .download-button { background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; margin-top: 20px; text-decoration: none; display: inline-block; }
-        .download-button:hover { background-color: #218838; }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em;
+            color: #cccccc;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
 
-        footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: #e9ecef; color: #6c757d; text-align: center; padding: 10px 0; font-size: 14px; border-top: 1px solid var(--border-color); }
+        p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #cccccc;
+        }
+
+        .ip-inputs {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* Estilo dos campos de input */
+        .ip-inputs input, #pdv {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border-radius: 8px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .ip-inputs input:focus, #pdv:focus {
+            outline: none;
+            border-color: #39ff14; /* Foco com verde neon */
+            box-shadow: 0 0 0 3px rgba(57, 255, 20, 0.25);
+        }
+
+        .ip-separator {
+            font-weight: bold;
+            color: #cccccc;
+        }
+
+        /* Botão principal */
+        .main-button {
+            display: inline-block;
+            width: 100%;
+            padding: 15px 25px;
+            border: 2px solid #39ff14;
+            border-radius: 8px;
+            color: #ffffff;
+            background-color: transparent;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .main-button:hover {
+            background-color: #39ff14;
+            color: #1a1a1a;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+        }
+
+        /* Resultado do QR Code */
+        #qrcode-result {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background-color: #ffffff; /* Fundo branco para o QR Code ser legível */
+            display: none;
+        }
+
+        #qrcode-canvas {
+            display: flex;
+            justify-content: center;
+        }
         
-/* --- BOTÃO VOLTAR (VERDE NEON, INFERIOR ESQUERDO) --- */
-.back-link-container {
-    position: fixed; /* Fixa na tela, mesmo ao rolar */
-    bottom: 40px;    /* 25px da parte inferior */
-    left: 25px;      /* 25px da parte esquerda */
-    z-index: 1000;   /* Garante que fique acima de tudo */
-}
+        /* Botão de Download */
+        .download-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.2s;
+        }
+        
+        .download-button:hover {
+            background-color: #218838;
+        }
+        
+        /* Rodapé */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 0;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+        }
 
-.back-link-container a {
-    display: inline-block; /* Para aplicar padding e background */
-    background-color: transparent; /* Começa transparente */
-    border: 2px solid #39ff14; /* Borda verde neon */
-    border-radius: 8px; /* Cantos arredondados */
-    padding: 10px 20px; /* Espaçamento interno */
-    
-    color: #39ff14; /* Cor do texto verde neon */
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 16px;
-    letter-spacing: 1px; /* Espaçamento entre letras */
-    text-transform: uppercase; /* Texto em maiúsculas */
-
-    transition: all 0.3s ease; /* Transição suave para efeitos */
-
-    /* Efeito de brilho inicial */
-    box-shadow: 0 0 5px rgba(57, 255, 20, 0.5),
-                0 0 10px rgba(57, 255, 20, 0.3);
-}
-
-.back-link-container a:hover {
-    background-color: #39ff14; /* Fundo verde neon ao passar o mouse */
-    color: #1a1a1a; /* Texto escuro para contraste */
-    box-shadow: 0 0 15px rgba(57, 255, 20, 0.7),
-                0 0 25px rgba(57, 255, 20, 0.5); /* Aumenta o brilho no hover */
-}
-/* ================================================== */
-        /* ==================== */
+        /* --- BOTÃO VOLTAR (VERDE NEON, INFERIOR ESQUERDO) --- */
+        .back-link-container {
+            position: fixed;
+            bottom: 50px;
+            left: 25px;
+            z-index: 1000;
+        }
+        .back-link-container a {
+            display: inline-block;
+            background-color: transparent;
+            border: 2px solid #39ff14;
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: #39ff14;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 5px rgba(57, 255, 20, 0.5), 0 0 10px rgba(57, 255, 20, 0.3);
+        }
+        .back-link-container a:hover {
+            background-color: #39ff14;
+            color: #1a1a1a;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.7), 0 0 25px rgba(57, 255, 20, 0.5);
+        }
     </style>
 </head>
 <body>
 
     <div class="back-link-container">
-        <a href="https://saullo-cruz.github.io/">← Voltar ao Gerador de senha</a>
+        <a href="https://saullo-cruz.github.io/">← Voltar</a>
     </div>
+
     <div class="container">
-        <h1>Gerador de QR Code</h1>
-        <p>Preencha os dados do sistema para gerar o código de configuração.</p>
+        <h1>Gerador QR Code</h1>
+        <p>Preencha os dados para gerar o código de configuração.</p>
 
         <div class="form-group">
             <label for="ip1">Endereço IP e Porta</label>
