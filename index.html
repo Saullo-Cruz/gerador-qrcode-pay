@@ -212,8 +212,7 @@
                 <input type="text" id="ip3" placeholder="0" maxlength="3" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(parseInt(this.value)>255)this.value='255';">
                 <span class="ip-separator">.</span>
                 <input type="text" id="ip4" placeholder="10" maxlength="3" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(parseInt(this.value)>255)this.value='255';">
-                <span class="ip-separator">:</span>
-                <input type="text" id="port" placeholder="8080" maxlength="5" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(parseInt(this.value)>65535)this.value='65535';">
+                <span class="ip-separator">:</span> <input type="text" id="port" placeholder="8080" maxlength="5" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(parseInt(this.value)>65535)this.value='65535';">
             </div>
         </div>
 
@@ -242,15 +241,21 @@
                 }
             }
             
-            // ===== CÓDIGO CORRIGIDO ABAIXO =====
+            // ===== CÓDIGO CORRIGIDO (VERSÃO JSON) =====
 
-            // 1. Constrói o endereço IP
-            const ipAddress = `${values.ip1}.${values.ip2}.${values.ip3}.${values.ip4}`;
+            // 1. Junta o IP e a Porta com ":"
+            const ipCompleto = `${values.ip1}.${values.ip2}.${values.ip3}.${values.ip4}:${values.port}`;
             
-            // 2. Cria a string de texto final no formato correto
-            const textoParaQRCode = `ip:${ipAddress}:${values.port} pdv:${values.pdv}`;
+            // 2. Cria um objeto JavaScript com os dados
+            const dadosConfig = {
+                ip: ipCompleto,
+                pdv: values.pdv
+            };
+            
+            // 3. Converte o objeto para uma string no formato JSON
+            const textoParaQRCode = JSON.stringify(dadosConfig);
 
-            // ===================================
+            // ===========================================
 
             const resultContainer = document.getElementById('qrcode-result');
             const qrcodeContainer = document.getElementById('qrcode-canvas');
@@ -269,6 +274,8 @@
                 correctLevel: QRCode.CorrectLevel.H
             });
             
+            console.log("QR Code gerado com o texto:", textoParaQRCode);
+
             setTimeout(() => {
                 const canvas = qrcodeContainer.querySelector('canvas');
                 if (canvas) {
