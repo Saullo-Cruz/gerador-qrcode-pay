@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de QR Code para Configuração</title>
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+        :root {
+            --primary-color: #007bff;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+            --border-color: #dee2e6;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .ip-inputs {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .ip-inputs input, #pdv {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .ip-inputs input:focus, #pdv:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+
+        .ip-separator {
+            font-weight: bold;
+        }
+
+        .main-button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 500;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .main-button:hover {
+            background-color: #0056b3;
+        }
+
+        #qrcode-result {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            display: none; /* Começa escondido */
+        }
+
+        #qrcode-canvas {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .download-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .download-button:hover {
+            background-color: #218838;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Gerador de QR Code</h1>
+        <p>Preencha os dados do sistema para gerar o código de configuração.</p>
+
+        <div class="form-group">
+            <label for="ip1">Endereço IP e Porta</label>
+            <div class="ip-inputs">
+                <input type="text" id="ip1" placeholder="192" maxlength="3" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(parseInt(this.value)>255)this.value='255';">
+                <span class="ip-separator">.</span>
+                <input type="text" id="ip2" placeholder="168" maxlength="3" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(parseInt(this.value)>255)this.value='255';">
+                <span class="ip-separator">.</span>
+                <input type="text" id="ip3" placeholder="0" maxlength="3" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(parseInt(this.value)>255)this.value='255';">
+                <span class="ip-separator">.</span>
+                <input type="text" id="ip4" placeholder="10" maxlength="3" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(parseInt(this.value)>255)this.value='255';">
+                <span class="ip-separator">:</span>
+                <input type="text" id="port" placeholder="8080" maxlength="5" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(parseInt(this.value)>65535)this.value='65535';">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="pdv">PDV</label>
+            <input type="text" id="pdv" placeholder="001">
+        </div>
+
+        <button class="main-button" onclick="gerarQRCode()">Gerar QR Code</button>
+
+        <div id="qrcode-result">
+            <div id="qrcode-canvas"></div>
+            <a id="download-link" class="download-button" style="display: none;">Download PNG</a>
+        </div>
+    </div>
+
+    <script>
+        function gerarQRCode() {
+            const inputs = ['ip1', 'ip2', 'ip3', 'ip4', 'port', 'pdv'];
+            const values = {};
+            for (const id of inputs) {
+                values[id] = document.getElementById(id).value;
+                if (!values[id]) {
+                    alert(`O campo ${id.toUpperCase()} é obrigatório.`);
+                    return;
+                }
+            }
+
+            const ipCompleto = `http://${values.ip1}.${values.ip2}.${values.ip3}.${values.ip4}:${values.port}`;
+            
+            const dadosConfig = {
+                ip: ipCompleto,
+                pdv: values.pdv
+            };
+
+            const textoParaQRCode = JSON.stringify(dadosConfig);
+            const resultContainer = document.getElementById('qrcode-result');
+            const qrcodeContainer = document.getElementById('qrcode-canvas');
+            const downloadLink = document.getElementById('download-link');
+            
+            qrcodeContainer.innerHTML = "";
+            resultContainer.style.display = 'block';
+            downloadLink.style.display = 'none';
+
+            new QRCode(qrcodeContainer, {
+                text: textoParaQRCode,
+                width: 256,
+                height: 256,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            
+            console.log("QR Code gerado com o texto:", textoParaQRCode);
+
+            // Adiciona um pequeno delay para garantir que o canvas foi renderizado
+            setTimeout(() => {
+                const canvas = qrcodeContainer.querySelector('canvas');
+                if (canvas) {
+                    downloadLink.href = canvas.toDataURL("image/png");
+                    downloadLink.download = `qrcode-pdv${values.pdv}.png`;
+                    downloadLink.style.display = 'inline-block';
+                }
+            }, 500);
+        }
+    </script>
+</body>
+</html>
