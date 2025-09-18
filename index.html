@@ -54,24 +54,42 @@
 
         footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: #e9ecef; color: #6c757d; text-align: center; padding: 10px 0; font-size: 14px; border-top: 1px solid var(--border-color); }
         
-        /* --- BOTÃO VOLTAR --- */
-        .back-link-container {
-            position: absolute;
-            top: 25px;
-            left: 25px;
-            z-index: 10;
-        }
-        .back-link-container a {
-            color: #343a40; /* Cor escura para contrastar com o fundo claro */
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 16px;
-            transition: color 0.3s ease;
-        }
-        .back-link-container a:hover {
-            color: #0056b3; /* Cor azul escura no hover */
-            text-decoration: underline;
-        }
+/* --- BOTÃO VOLTAR (VERDE NEON, INFERIOR ESQUERDO) --- */
+.back-link-container {
+    position: fixed; /* Fixa na tela, mesmo ao rolar */
+    bottom: 25px;    /* 25px da parte inferior */
+    left: 25px;      /* 25px da parte esquerda */
+    z-index: 1000;   /* Garante que fique acima de tudo */
+}
+
+.back-link-container a {
+    display: inline-block; /* Para aplicar padding e background */
+    background-color: transparent; /* Começa transparente */
+    border: 2px solid #39ff14; /* Borda verde neon */
+    border-radius: 8px; /* Cantos arredondados */
+    padding: 10px 20px; /* Espaçamento interno */
+    
+    color: #39ff14; /* Cor do texto verde neon */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    letter-spacing: 1px; /* Espaçamento entre letras */
+    text-transform: uppercase; /* Texto em maiúsculas */
+
+    transition: all 0.3s ease; /* Transição suave para efeitos */
+
+    /* Efeito de brilho inicial */
+    box-shadow: 0 0 5px rgba(57, 255, 20, 0.5),
+                0 0 10px rgba(57, 255, 20, 0.3);
+}
+
+.back-link-container a:hover {
+    background-color: #39ff14; /* Fundo verde neon ao passar o mouse */
+    color: #1a1a1a; /* Texto escuro para contraste */
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.7),
+                0 0 25px rgba(57, 255, 20, 0.5); /* Aumenta o brilho no hover */
+}
+/* ================================================== */
         /* ==================== */
     </style>
 </head>
