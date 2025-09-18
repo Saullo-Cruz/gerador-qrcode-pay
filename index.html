@@ -20,7 +20,8 @@
             background-color: var(--light-gray);
             color: var(--dark-gray);
             margin: 0;
-            padding: 20px;
+            /* Adiciona um padding na parte de baixo para o rodapé não cobrir o conteúdo */
+            padding: 20px 20px 60px 20px; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -131,6 +132,20 @@
             background-color: #218838;
         }
 
+        /* ===== NOVO CÓDIGO DO RODAPÉ ===== */
+        footer {
+            position: fixed; /* Fixa o elemento na janela do navegador */
+            bottom: 0;       /* Cola na parte inferior */
+            left: 0;         /* Garante que comece na borda esquerda */
+            width: 100%;     /* Faz ocupar a largura inteira da tela */
+            background-color: #e9ecef; /* Um fundo suave para se destacar um pouco */
+            color: #6c757d;  /* Cor do texto */
+            text-align: center; /* Centraliza o texto horizontalmente */
+            padding: 10px 0; /* Espaçamento interno (10px em cima e embaixo) */
+            font-size: 14px; /* Tamanho da fonte */
+            border-top: 1px solid var(--border-color); /* Linha sutil no topo */
+        }
+        /* ================================== */
     </style>
 </head>
 <body>
@@ -142,7 +157,7 @@
         <div class="form-group">
             <label for="ip1">Endereço IP e Porta</label>
             <div class="ip-inputs">
-                <input type="text" id="ip1" placeholder="192" maxlength="3" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(parseInt(this.value)>255)this.value='255';">
+                <input type="text" id="ip1" placeholder="192" maxlength="3" oninput="this.value=this.value.replace(/[^0--9]/g,''); if(parseInt(this.value)>255)this.value='255';">
                 <span class="ip-separator">.</span>
                 <input type="text" id="ip2" placeholder="168" maxlength="3" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(parseInt(this.value)>255)this.value='255';">
                 <span class="ip-separator">.</span>
@@ -166,7 +181,7 @@
             <a id="download-link" class="download-button" style="display: none;">Download PNG</a>
         </div>
     </div>
-
+    
     <script>
         function gerarQRCode() {
             const inputs = ['ip1', 'ip2', 'ip3', 'ip4', 'port', 'pdv'];
@@ -217,5 +232,9 @@
             }, 500);
         }
     </script>
-</body>
+
+    <footer>
+        Desenvolvido por Saullo Cruz
+    </footer>
+    </body>
 </html>
